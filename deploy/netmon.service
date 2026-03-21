@@ -1,0 +1,21 @@
+[Unit]
+Description=NetMon Web API - Cluster Network Monitor
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/netmon
+Environment="PATH=/opt/netmon/venv/bin:/usr/bin"
+EnvironmentFile=/opt/netmon/.env
+ExecStart=/opt/netmon/venv/bin/python netmon_web_v2.py
+Restart=always
+RestartSec=10
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

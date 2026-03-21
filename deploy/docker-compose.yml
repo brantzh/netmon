@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  netmon-single:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netmon-single
+    ports:
+      - "80:80"
+    environment:
+      - NETMON_WEB_PORT=80
+      - NETMON_IP_PREFIX=192.168
+      - NETMON_START_SUBNET=1
+      - NETMON_END_SUBNET=254
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    command: ["python", "single/netmon_web.py"]
+    
+  netmon-multi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netmon-multi
+    ports:
+      - "8080:80"
+    environment:
+      - NETMON_WEB_PORT=80
+      - NETMON_IP_PREFIX=192.168
+      - NETMON_START_SUBNET=1
+      - NETMON_END_SUBNET=254
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    command: ["python", "multi/api/netmon_web_multi.py"]
